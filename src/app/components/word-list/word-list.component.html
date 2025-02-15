@@ -1,0 +1,51 @@
+<form (ngSubmit)="addWord()">
+  <!-- ERROR: {{wordError}} -->
+
+  <div class="w-full my-4 relative">
+    <input type="text" [(ngModel)]="newWord" name="word"
+      class="w-full text-3xl bg-transparent placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md p-6 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+      [ngClass]="{'placeholder:text-red-700 border-red-700': wordError}" placeholder="Add word.." required>
+    <span (click)="clearInput()"
+      class="material-icons absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-800">
+      clear
+    </span>
+  </div>
+  <!-- <button type="submit">Add Word</button> -->
+</form>
+@if (errorMessage){
+
+<div class="mb-2 p-4 bg-red-200 text-red-700 rounded-md">{{errorMessage}}</div>
+}
+
+<ul>
+  <li *ngFor="let word of words(); let i = index"
+    class="justify-between items-center flex my-2 w-full text-3xl bg-transparent border border-grey-800 rounded-md p-3 transition duration-300 ease">
+    <span (click)="retrieveWordInfo(word)" class="cursor-pointer capitalize flex-grow"> {{ word }}</span>
+    <div class="flex items-center">
+      <button class="flex items-center px-2" (click)="removeWord(i)"><mat-icon>close</mat-icon></button>
+      <button class="flex items-center" (click)="addToFavourite(word)"><mat-icon>favorite</mat-icon></button>
+    </div>
+
+  </li>
+</ul>
+
+
+<div class="p-4">
+  <h3>Definitions:</h3>
+  <ul *ngIf="currentDefinitions() as definitions">
+    <li *ngFor="let definition of definitions">
+      <h4 class="font-semibold text-red-600 capitalize">{{ definition.word }}</h4>
+      <ul>
+        <li *ngFor="let meaning of definition.meanings">
+          <strong>({{ meaning.partOfSpeech }})</strong>
+          <ul class="list-disc list-outside pl-4">
+            <li *ngFor="let def of meaning.definitions">
+              {{ def.definition }}
+            </li>
+          </ul>
+
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

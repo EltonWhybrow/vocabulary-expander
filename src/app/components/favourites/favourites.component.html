@@ -1,0 +1,12 @@
+<p>favourites works!</p>
+<ul>
+  @for (favs of favouriteWords(); let i = $index; track favs) {
+  <li>
+    <span (click)="retrieveWordInfo(favs)">{{ favs }}</span>
+    <button (click)=" removeFavWord(i)">❌</button>
+  </li>
+  } @empty {
+  <li>There are no items.</li>
+  }
+
+</ul>
