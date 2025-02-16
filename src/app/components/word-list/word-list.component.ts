@@ -3,20 +3,21 @@ import { DictionaryService } from './word-list.component.spec';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
 @Component({
   selector: 'app-word-list',
   standalone: true,  // ✅ Mark it as standalone
-  imports: [CommonModule, FormsModule, MatIconModule],  // ✅ Add the necessary imports
+  imports: [CommonModule, FormsModule, MatIconModule, MatSnackBarModule],  // ✅ Add the necessary imports
   templateUrl: './word-list.component.html',
   styleUrls: ['./word-list.component.scss']
 })
 export class WordListComponent {
 
 
-  constructor(private dictionaryService: DictionaryService) { }
+  constructor(private dictionaryService: DictionaryService, private snackBar: MatSnackBar) { }
 
   words = signal<string[]>(this.loadWords()); // Load words from LocalStorage
   newWord = signal('');
@@ -54,17 +55,28 @@ export class WordListComponent {
     this.errorMessage = '';
   }
 
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Dismiss', {  // Add the options object as the second argument
+      duration: 3000, // Auto-close in 3 seconds
+      horizontalPosition: 'end', // 'start' | 'center' | 'end'
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      panelClass: ['snackbar-error'], // Apply custom styles
+    });
+  }
+
   addWord() {
     this.resetError();
 
     if (this.newWord().trim() === '') {
       this.wordError = true;
-      this.errorMessage = "You must enter a word!!!!!";
+      this.errorMessage = "You must enter a word!";
+      this.openSnackBar(`You must enter a word!`);
       return
     }
     if (this.words().includes(this.newWord().trim())) {
       this.wordError = true;
-      this.errorMessage = `"${this.newWord().trim()}" is already in your words!!!!!`;
+      this.errorMessage = `"${this.newWord().trim()}" is already in your words!`;
+      this.openSnackBar(`"${this.newWord().trim()}" is already in your words!`);
       return
     }
 
@@ -73,17 +85,13 @@ export class WordListComponent {
         this.words.update(words => [...words, this.newWord().trim()]);
         this.newWord.set('');
         this.saveWords(); // Save updated list to LocalStorage
-        // this.wordList.push(data[0]); // Store only the first result
-        // this.saveToLocalStorage();
 
-        console.log('Word added!', data);
       },
       (error) => {
-        console.error('Word not found!', error);
-        this.wordError = true;
+        this.openSnackBar('Word not found!');
 
+        this.wordError = true;
         this.errorMessage = error.error.message;
-        // alert('cant find word - TODO!')
       }
     );
 
@@ -95,37 +103,37 @@ export class WordListComponent {
   }
 
   retrieveWordInfo(word: string) {
-    console.log('word >>>>>', word)
     this.dictionaryService.getWordDefinition(word.trim()).subscribe(
       (data) => {
-        // this.wordList.push(data[0]); // Store only the first result
-        // this.saveToLocalStorage();
         this.currentDefinitions.set(data);
-        console.log('Word added!', data);
       },
       (error) => {
-        console.error('Word not found!', error);
-        alert('cant find word - TODO!')
+        this.openSnackBar(`No word Found, try another!`);
       }
     );
   }
 
   addToFavourite(word: string) {
-    console.log('word favourited >>>>>', word);
-
     const trimmedWord = word.trim();
 
     // Check if the word already exists
     this.favouriteWords.update(favouriteWords => {
 
       if (favouriteWords.includes(trimmedWord)) {
-        alert(`"${trimmedWord}" is already in your favourites!`);
+        this.openSnackBar(`"${trimmedWord}" is already in your favourites!`);
         return favouriteWords; // No change
       }
       return [...favouriteWords, trimmedWord];
-    }
-    );
+    });
+
     this.saveFavWords();
     console.log(this.favouriteWords());
+  }
+
+  checkInFavs(word: string) {
+    if (this.favouriteWords().includes(word)) {
+      return true; // No change
+    }
+    return false;
   }
 }

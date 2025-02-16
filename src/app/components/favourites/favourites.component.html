@@ -1,7 +1,8 @@
-<p>favourites works!</p>
+<h2 class="text-2xl text-white">Your Favourites</h2>
 <ul>
   @for (favs of favouriteWords(); let i = $index; track favs) {
-  <li>
+  <li
+    class="justify-between items-center flex my-2 w-full text-3xl text-white bg-black/30 border border-grey-800 rounded-md p-3 transition duration-300 ease">
     <span (click)="retrieveWordInfo(favs)">{{ favs }}</span>
     <button (click)=" removeFavWord(i)">❌</button>
   </li>

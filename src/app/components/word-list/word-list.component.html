@@ -1,13 +1,13 @@
 <form (ngSubmit)="addWord()">
   <!-- ERROR: {{wordError}} -->
 
-  <div class="w-full my-4 relative">
+  <div class="w-full mb-4 relative">
     <input type="text" [(ngModel)]="newWord" name="word"
-      class="w-full text-3xl bg-transparent placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded-md p-6 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-      [ngClass]="{'placeholder:text-red-700 border-red-700': wordError}" placeholder="Add word.." required>
+      class="w-full text-2xl bg-transparent placeholder:text-gray-400 text-white border border-slate-200 rounded-md p-6 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+      [ngClass]="{'placeholder:text-red-700 border-red-700': wordError}" placeholder="Add a new word.." required>
     <span (click)="clearInput()"
-      class="material-icons absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-800">
-      clear
+      class="material-icons absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-800 cursor-pointer">
+      cancel
     </span>
   </div>
   <!-- <button type="submit">Add Word</button> -->
@@ -19,18 +19,20 @@
 
 <ul>
   <li *ngFor="let word of words(); let i = index"
-    class="justify-between items-center flex my-2 w-full text-3xl bg-transparent border border-grey-800 rounded-md p-3 transition duration-300 ease">
+    class="justify-between items-center flex my-2 w-full text-3xl text-white bg-black/30 border border-grey-800 rounded-md p-3 transition duration-300 ease">
     <span (click)="retrieveWordInfo(word)" class="cursor-pointer capitalize flex-grow"> {{ word }}</span>
     <div class="flex items-center">
-      <button class="flex items-center px-2" (click)="removeWord(i)"><mat-icon>close</mat-icon></button>
-      <button class="flex items-center" (click)="addToFavourite(word)"><mat-icon>favorite</mat-icon></button>
+      <button class="flex items-center px-2"
+        [ngClass]="{ 'text-gray-200': checkInFavs(word), 'text-red-500': !checkInFavs(word) }"
+        (click)=" addToFavourite(word)"><mat-icon>favorite</mat-icon></button>
+      <button class="flex items-center px-3" (click)="removeWord(i)"><mat-icon>close</mat-icon></button>
     </div>
 
   </li>
 </ul>
 
 
-<div class="p-4">
+<div class="p-4 text-white">
   <h3>Definitions:</h3>
   <ul *ngIf="currentDefinitions() as definitions">
     <li *ngFor="let definition of definitions">
