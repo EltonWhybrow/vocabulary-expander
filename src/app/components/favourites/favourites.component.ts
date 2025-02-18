@@ -1,11 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DictionaryService } from '../word-list/word-list.component.spec';
+import { MatIconModule } from '@angular/material/icon';
+import { DefinitionModalComponent } from '../definition-modal/definition-modal.component';
 
 @Component({
   selector: 'app-favourites',
   standalone: true,  // ✅ Mark it as standalone
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule, DefinitionModalComponent],
   templateUrl: './favourites.component.html',
   styleUrl: './favourites.component.scss'
 })
@@ -14,7 +16,11 @@ export class FavouritesComponent {
 
   favouriteWords = signal<string[]>(this.loadFavWords());
   currentDefinitions = signal<any>(null);
+  isModalOpen = false;
 
+  closeModal() {
+    this.isModalOpen = false;
+  }
 
   constructor(private dictionaryService: DictionaryService) {
 
@@ -39,6 +45,7 @@ export class FavouritesComponent {
         // this.wordList.push(data[0]); // Store only the first result
         // this.saveToLocalStorage();
         this.currentDefinitions.set(data);
+        this.isModalOpen = true;
         console.log('Word added!', data);
       },
       (error) => {

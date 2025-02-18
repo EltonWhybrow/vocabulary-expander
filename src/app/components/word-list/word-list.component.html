@@ -19,11 +19,11 @@
 
 <ul>
   <li *ngFor="let word of words(); let i = index"
-    class="justify-between items-center flex my-2 w-full text-3xl text-white bg-black/30 border border-grey-800 rounded-md p-3 transition duration-300 ease">
+    class="justify-between items-center flex my-2 w-full text-3xl text-white bg-black/30 hover:bg-black/50 border border-grey-800 rounded-md p-3 transition duration-300 ease">
     <span (click)="retrieveWordInfo(word)" class="cursor-pointer capitalize flex-grow"> {{ word }}</span>
     <div class="flex items-center">
       <button class="flex items-center px-2"
-        [ngClass]="{ 'text-gray-200': checkInFavs(word), 'text-red-500': !checkInFavs(word) }"
+        [ngClass]="{ 'text-red-500': checkInFavs(word), 'ext-gray-200': !checkInFavs(word) }"
         (click)=" addToFavourite(word)"><mat-icon>favorite</mat-icon></button>
       <button class="flex items-center px-3" (click)="removeWord(i)"><mat-icon>close</mat-icon></button>
     </div>
@@ -32,6 +32,10 @@
 </ul>
 
 
+<!-- Modal Component -->
+<app-definition-modal [isOpen]="isModalOpen" [definition]="currentDefinitions()" (close)="closeModal()">
+</app-definition-modal>
+<!--
 <div class="p-4 text-white">
   <h3>Definitions:</h3>
   <ul *ngIf="currentDefinitions() as definitions">
@@ -50,4 +54,4 @@
       </ul>
     </li>
   </ul>
-</div>
+</div> -->

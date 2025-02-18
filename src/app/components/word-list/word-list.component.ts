@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DefinitionModalComponent } from '../definition-modal/definition-modal.component';
 
 
 
 @Component({
   selector: 'app-word-list',
   standalone: true,  // ✅ Mark it as standalone
-  imports: [CommonModule, FormsModule, MatIconModule, MatSnackBarModule],  // ✅ Add the necessary imports
+  imports: [CommonModule, FormsModule, MatIconModule, MatSnackBarModule, DefinitionModalComponent],  // ✅ Add the necessary imports
   templateUrl: './word-list.component.html',
   styleUrls: ['./word-list.component.scss']
 })
@@ -24,9 +25,13 @@ export class WordListComponent {
   currentDefinitions = signal<any>(null);
   wordError: boolean = false;
   errorMessage: string = '';
+  isModalOpen = false;
 
   favouriteWords = signal<string[]>(this.loadFavWords());
 
+  closeModal() {
+    this.isModalOpen = false;
+  }
 
   private saveWords() {
     localStorage.setItem('wordList', JSON.stringify(this.words()));
@@ -106,6 +111,7 @@ export class WordListComponent {
     this.dictionaryService.getWordDefinition(word.trim()).subscribe(
       (data) => {
         this.currentDefinitions.set(data);
+        this.isModalOpen = true;
       },
       (error) => {
         this.openSnackBar(`No word Found, try another!`);
