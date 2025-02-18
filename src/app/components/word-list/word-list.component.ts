@@ -26,6 +26,7 @@ export class WordListComponent {
   wordError: boolean = false;
   errorMessage: string = '';
   isModalOpen = false;
+  firstAudio: string = '';
 
   favouriteWords = signal<string[]>(this.loadFavWords());
 
@@ -76,12 +77,18 @@ export class WordListComponent {
       this.wordError = true;
       this.errorMessage = "You must enter a word!";
       this.openSnackBar(`You must enter a word!`);
+      setTimeout(() => {
+        this.clearInput()
+      }, 5000)
       return
     }
     if (this.words().includes(this.newWord().trim())) {
       this.wordError = true;
       this.errorMessage = `"${this.newWord().trim()}" is already in your words!`;
       this.openSnackBar(`"${this.newWord().trim()}" is already in your words!`);
+      setTimeout(() => {
+        this.clearInput()
+      }, 5000)
       return
     }
 
@@ -97,10 +104,50 @@ export class WordListComponent {
 
         this.wordError = true;
         this.errorMessage = error.error.message;
+        setTimeout(() => {
+          this.clearInput()
+        }, 5000)
       }
     );
 
   }
+
+  // TODO: Move to service
+  playAudio(word: string, i: any) {
+    this.dictionaryService.getWordDefinition(word.trim()).subscribe(
+      (data) => {
+        this.currentDefinitions.set(data);
+
+
+        // Ensure phonetics exists and has an audio URL
+        const phonetics = this.currentDefinitions()[0]?.phonetics;
+        const songToPlay = phonetics?.find((p: { audio: any; }) => p.audio)?.audio;
+
+        if (songToPlay) {
+          new Audio(songToPlay).play();
+        }
+
+      },
+      (error) => {
+        this.openSnackBar(`No word Found, try another!`);
+      }
+    );
+  }
+
+
+  // playSound(word: string) {
+  //   // console.log(index);
+  //   console.log(this.currentDefinitions());
+  //   console.log(this.words());
+  //   this.dictionaryService.getWordDefinition(word.trim()).subscribe(
+  //     (data) => {
+  //       this.firstAudio = data[0].phonetics[0].audio
+  //     },
+  //     (error) => {
+  //       this.openSnackBar(`Error getting sound!`);
+  //     }
+  //   );
+  // }
 
   removeWord(index: number) {
     this.words.update(words => words.filter((_, i) => i !== index));

@@ -1,10 +1,10 @@
-<h1 class="text-3xl text-white">Your Favourites</h1>
+<h1 class="text-3xl text-white">Saved Favourites</h1>
 <ul>
   @for (favs of favouriteWords(); let i = $index; track favs) {
   <li
     class="justify-between items-center flex my-2 w-full text-3xl text-white bg-black/30 hover:bg-black/50 border border-grey-800 rounded-md p-3 transition duration-300 ease">
     <span class="cursor-pointer capitalize flex-grow" (click)="retrieveWordInfo(favs)">{{ favs }}</span>
-
+    <button class="flex items-center px-2" (click)="playAudio(favs, i)"><mat-icon>volume_up</mat-icon></button>
     <button class="flex items-center px-3" (click)="removeFavWord(i)"><mat-icon>close</mat-icon></button>
   </li>
   } @empty {

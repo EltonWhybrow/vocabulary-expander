@@ -38,6 +38,28 @@ export class FavouritesComponent {
     this.saveFavWords(); // Save updated list
   }
 
+  // TODO: Move to service
+  playAudio(word: string, i: any) {
+    this.dictionaryService.getWordDefinition(word.trim()).subscribe(
+      (data) => {
+        this.currentDefinitions.set(data);
+
+
+        // Ensure phonetics exists and has an audio URL
+        const phonetics = this.currentDefinitions()[0]?.phonetics;
+        const songToPlay = phonetics?.find((p: { audio: any; }) => p.audio)?.audio;
+
+        if (songToPlay) {
+          new Audio(songToPlay).play();
+        }
+
+      },
+      (error) => {
+        // this.openSnackBar(`No word Found, try another!`);
+      }
+    );
+  }
+
   retrieveWordInfo(word: string) {
     console.log('word >>>>>', word)
     this.dictionaryService.getWordDefinition(word.trim()).subscribe(
