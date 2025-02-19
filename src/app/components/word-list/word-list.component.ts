@@ -51,11 +51,6 @@ export class WordListComponent {
     return JSON.parse(localStorage.getItem('favWordList') || '[]');
   }
 
-  clearInput() {
-    this.newWord.set('');
-    this.resetError();
-  }
-
   resetError() {
     this.wordError = false;
     this.errorMessage = '';
@@ -77,17 +72,19 @@ export class WordListComponent {
       this.wordError = true;
       this.errorMessage = "You must enter a word!";
       this.openSnackBar(`You must enter a word!`);
+      this.newWord.set('');
       setTimeout(() => {
-        this.clearInput()
+        this.resetError();
       }, 7000)
       return
     }
-    if (this.words().includes(this.newWord().trim())) {
+    if (this.words().includes(this.newWord().trim().toLowerCase())) {
       this.wordError = true;
       this.errorMessage = `"${this.newWord().trim()}" is already in your words!`;
       this.openSnackBar(`"${this.newWord().trim()}" is already in your words!`);
+      this.newWord.set('');
       setTimeout(() => {
-        this.clearInput()
+        this.resetError();
       }, 7000)
       return
     }
@@ -104,8 +101,9 @@ export class WordListComponent {
 
         this.wordError = true;
         this.errorMessage = error.error.message;
+        this.newWord.set('');
         setTimeout(() => {
-          this.clearInput()
+          this.resetError();
         }, 7000)
       }
     );

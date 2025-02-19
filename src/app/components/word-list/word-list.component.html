@@ -5,7 +5,7 @@
     <input type="text" [(ngModel)]="newWord" name="word"
       class="w-full text-2xl bg-transparent placeholder:text-gray-400 text-white border border-slate-200 rounded-md p-6 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
       [ngClass]="{'placeholder:text-red-700 border-red-700': wordError}" placeholder="New word to learn..." required>
-    <span (click)="clearInput()"
+    <span (click)="resetError()"
       class="material-icons absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-800 cursor-pointer">
       cancel
     </span>
