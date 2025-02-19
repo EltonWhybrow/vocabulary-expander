@@ -79,7 +79,7 @@ export class WordListComponent {
       this.openSnackBar(`You must enter a word!`);
       setTimeout(() => {
         this.clearInput()
-      }, 5000)
+      }, 7000)
       return
     }
     if (this.words().includes(this.newWord().trim())) {
@@ -88,7 +88,7 @@ export class WordListComponent {
       this.openSnackBar(`"${this.newWord().trim()}" is already in your words!`);
       setTimeout(() => {
         this.clearInput()
-      }, 5000)
+      }, 7000)
       return
     }
 
@@ -106,7 +106,7 @@ export class WordListComponent {
         this.errorMessage = error.error.message;
         setTimeout(() => {
           this.clearInput()
-        }, 5000)
+        }, 7000)
       }
     );
 

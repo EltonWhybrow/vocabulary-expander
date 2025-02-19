@@ -34,8 +34,11 @@ export class FavouritesComponent {
   }
 
   removeFavWord(index: number) {
-    this.favouriteWords.update(favouriteWords => favouriteWords.filter((_, i) => i !== index));
-    this.saveFavWords(); // Save updated list
+    const isConfirmed = confirm('Are you sure you want to delete one of you favs?')
+    if (isConfirmed) {
+      this.favouriteWords.update(favouriteWords => favouriteWords.filter((_, i) => i !== index));
+      this.saveFavWords(); // Save updated list
+    }
   }
 
   // TODO: Move to service

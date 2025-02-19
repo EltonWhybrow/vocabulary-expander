@@ -11,4 +11,10 @@ import { HeaderComponent } from './components/header/header.component';
 })
 export class AppComponent {
   title = 'vocabulary-expander';
+
+  isModalOpen = false;
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
 }
