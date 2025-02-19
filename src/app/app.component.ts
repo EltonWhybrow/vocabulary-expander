@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 
 @Component({
@@ -10,6 +10,15 @@ import { HeaderComponent } from './components/header/header.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
+
+
   title = 'vocabulary-expander';
 
   isModalOpen = false;
