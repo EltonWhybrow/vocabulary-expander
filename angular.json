@@ -22,6 +22,7 @@
               "browser": ""
             },
             "baseHref": "/vocabulary-expander/",
+            "outputHashing": "all",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
