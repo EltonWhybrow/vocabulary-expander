@@ -1,19 +1,20 @@
 <header class="flex justify-between p-5 border-b border-gray-200 w-full fixed top-0 h-20 bg-[#848987]">
 
 
-  <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page" class="flex mr-4 w-56">
+  <a routerLink="/" ariaCurrentWhenActive="page" class="flex mr-4 w-56">
     <img src="assets/vocabFreshLogo.svg" alt="VobabFresh logo" />
   </a>
 
   <div class="flex justify-end">
-    <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page" class="flex items-center px-2">
-      <mat-icon class="text-white">search</mat-icon></a>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page"
+      class="flex items-center px-2">
+      <mat-icon>search</mat-icon></a>
     <a routerLink="/cloud" routerLinkActive="active" ariaCurrentWhenActive="page" class="flex items-center px-2">
-      <mat-icon class="text-white">cloud</mat-icon></a>
+      <mat-icon>cloud</mat-icon></a>
     <a routerLink="/favourites" routerLinkActive="active" ariaCurrentWhenActive="page" class="flex items-center px-2">
-      <mat-icon class="text-red-500">favorite</mat-icon></a>
+      <mat-icon>favorite</mat-icon></a>
     <a routerLink="/info" routerLinkActive="active" ariaCurrentWhenActive="page" class="flex items-center px-2">
-      <mat-icon class="text-white">info</mat-icon></a>
+      <mat-icon>info</mat-icon></a>
   </div>
 
 </header>

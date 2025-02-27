@@ -12,6 +12,13 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+a {
+  @apply text-gray-800;
+  &.active {
+    @apply text-white;
+  }
+}
+
 // .snackbar-success {
 //   background-color: #4caf50 !important; /* Green for success */
 //   color: white !important;

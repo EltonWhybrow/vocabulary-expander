@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DictionaryService } from '../word-list/word-list.component.spec';
 import { MatIconModule } from '@angular/material/icon';
 import { DefinitionModalComponent } from '../definition-modal/definition-modal.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-favourites',
@@ -22,7 +23,7 @@ export class FavouritesComponent {
     this.isModalOpen = false;
   }
 
-  constructor(private dictionaryService: DictionaryService) {
+  constructor(private dictionaryService: DictionaryService, private snackBar: MatSnackBar) {
 
   }
   private loadFavWords(): string[] {
@@ -31,6 +32,15 @@ export class FavouritesComponent {
 
   private saveFavWords() {
     localStorage.setItem('favWordList', JSON.stringify(this.favouriteWords()));
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Dismiss', {  // Add the options object as the second argument
+      duration: 3000, // Auto-close in 3 seconds
+      horizontalPosition: 'end', // 'start' | 'center' | 'end'
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      panelClass: ['snackbar-error'], // Apply custom styles
+    });
   }
 
   removeFavWord(index: number) {
@@ -54,6 +64,8 @@ export class FavouritesComponent {
 
         if (songToPlay) {
           new Audio(songToPlay).play();
+        } else {
+          this.openSnackBar(`No sound found, try another!`);
         }
 
       },

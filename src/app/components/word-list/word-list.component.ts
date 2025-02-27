@@ -123,6 +123,8 @@ export class WordListComponent {
 
         if (songToPlay) {
           new Audio(songToPlay).play();
+        } else {
+          this.openSnackBar(`No sound found, try another!`);
         }
 
       },
@@ -171,7 +173,7 @@ export class WordListComponent {
     this.favouriteWords.update(favouriteWords => {
 
       if (favouriteWords.includes(trimmedWord)) {
-        this.openSnackBar(`"${trimmedWord}" is already in your favourites!`);
+        this.openSnackBar(`"${trimmedWord}" is already in your favourites! Go to favourites to delete`);
         return favouriteWords; // No change
       }
       return [...favouriteWords, trimmedWord];
