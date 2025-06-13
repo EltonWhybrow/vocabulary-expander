@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CloudData, CloudOptions, TagCloudComponent, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
@@ -11,9 +12,29 @@ import { CloudData, CloudOptions, TagCloudComponent, ZoomOnHoverOptions } from '
 })
 export class CloudComponent {
 
-  constructor(private snackBar: MatSnackBar) {
 
+  tagCloudData: CloudData[] = [];
+
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+    this.regenerateTagCloud();
   }
+
+  regenerateTagCloud(): void {
+    this.http.get<string[]>('https://random-word-api.vercel.app/api?words=35&type=capitalized')
+      .subscribe(words => {
+        this.tagCloudData = words.map(word => ({
+          text: word,
+          weight: this.getRandomWeight(), // Random for cloud variation
+          color: '#FFD279',
+        }));
+      });
+  }
+
+
+  getRandomWeight(): number {
+    return Math.floor(Math.random() * 7) + 4; // returns 4–10
+  }
+
 
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Dismiss', {  // Add the options object as the second argument
@@ -55,207 +76,215 @@ export class CloudComponent {
     realignOnResize: true
   };
 
+  // TODO add a service to fetch words from an API
+  // Example API to fetch random words
+  // You can use this endpoint to get a list of random words
+  // This example fetches 35 capitalized words
+  // Uncomment the following line to use it in your service
+  // https://random-word-api.vercel.app/api?words=35&type=capitalized
 
 
-  tagCloudData: CloudData[] = [
-    {
-      "text": "Laconic",
-      "weight": 1,
-      "color": "#FFD279",
-      "link": "http://google.com",
-      "external": true
-    },
-    {
-      "text": "serendipity",
-      "weight": 10,
-      "color": "#FFD279",
 
-    },
-    {
-      "text": "Vivid",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Grace",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Glimmer",
-      "weight": 7,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Quirk",
-      "weight": 4,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Bliss",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Finesse",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Zest",
-      "weight": 4,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Spunk",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Rogue",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Vibe",
-      "weight": 4,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Ephemeral",
-      "weight": 6,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Sesquipedalian",
-      "weight": 8,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Quixotic",
-      "weight": 4,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Lugubrious",
-      "weight": 6,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Ineffable",
-      "weight": 7,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Absquatulate",
-      "weight": 4,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Susurrus",
-      "weight": 9,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Vorfreude",
-      "weight": 8,
-      "color": "#FFD279",
-    },
-    {
-      "text": "Brevity",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Serene",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Eloquent",
-      "weight": 7,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Zeal",
-      "weight": 4,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Cacophony",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Aplomb",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Ephemeral",
-      "weight": 7,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Vivid",
-      "weight": 4,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Frugal",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Euphoria",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Nifty",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Chime",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Blaze",
-      "weight": 7,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Swift",
-      "weight": 4,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Mirth",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Harmonic",
-      "weight": 6,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Tonic",
-      "weight": 5,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Pith",
-      "weight": 4,
-      "color": "#FFD279"
-    },
-    {
-      "text": "Aura",
-      "weight": 6,
-      "color": "#FFD279"
-    }
 
-  ];
+  //   tagCloudData: CloudData[] = [
+  //     {
+  //       "text": "Laconic",
+  //       "weight": 1,
+  //       "color": "#FFD279",
+  //       "link": "http://google.com",
+  //       "external": true
+  //     },
+  //     {
+  //       "text": "serendipity",
+  //       "weight": 10,
+  //       "color": "#FFD279",
+
+  //     },
+  //     {
+  //       "text": "Vivid",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Grace",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Glimmer",
+  //       "weight": 7,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Quirk",
+  //       "weight": 4,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Bliss",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Finesse",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Zest",
+  //       "weight": 4,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Spunk",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Rogue",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Vibe",
+  //       "weight": 4,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Ephemeral",
+  //       "weight": 6,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Sesquipedalian",
+  //       "weight": 8,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Quixotic",
+  //       "weight": 4,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Lugubrious",
+  //       "weight": 6,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Ineffable",
+  //       "weight": 7,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Absquatulate",
+  //       "weight": 4,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Susurrus",
+  //       "weight": 9,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Vorfreude",
+  //       "weight": 8,
+  //       "color": "#FFD279",
+  //     },
+  //     {
+  //       "text": "Brevity",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Serene",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Eloquent",
+  //       "weight": 7,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Zeal",
+  //       "weight": 4,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Cacophony",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Aplomb",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Ephemeral",
+  //       "weight": 7,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Vivid",
+  //       "weight": 4,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Frugal",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Euphoria",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Nifty",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Chime",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Blaze",
+  //       "weight": 7,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Swift",
+  //       "weight": 4,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Mirth",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Harmonic",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Tonic",
+  //       "weight": 5,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Pith",
+  //       "weight": 4,
+  //       "color": "#FFD279"
+  //     },
+  //     {
+  //       "text": "Aura",
+  //       "weight": 6,
+  //       "color": "#FFD279"
+  //     }
+
+  //   ];
 }

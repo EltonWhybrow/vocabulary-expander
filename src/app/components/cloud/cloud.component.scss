@@ -14,5 +14,9 @@ angular-tag-cloud .tag-cloud-word {
 }
 
 a {
-  color: red;
+  color: #ffffff;
+  &:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
 }

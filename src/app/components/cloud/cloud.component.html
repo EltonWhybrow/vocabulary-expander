@@ -1,6 +1,10 @@
 <h1 class="text-xl text-customOrange mb-1">Word cloud</h1>
 
-<p class="text-white pb-1 text-lg">Inspiration to get started</p>
+<p class="text-white pb-1 text-lg">Inspiration to get started <a (click)="regenerateTagCloud()"
+    class="text-wite text-sm cursor-pointer">
+    (Refresh Words)
+  </a></p>
+
 <div class="w-full">
   <angular-tag-cloud [data]="tagCloudData" [delay]="options.delay" [zoomOnHover]="options.zoomOnHover"
     [width]="options.width" [height]="options.height" [overflow]="options.overflow"
